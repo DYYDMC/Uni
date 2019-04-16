@@ -1,0 +1,9 @@
+f = open('note.txt','r+')#question and answer
+q = f.readline().strip()
+print(q)
+answer = input("what's the answer:?")
+correct  = f.readline().strip()
+if answer==correct:
+	print('yes!next!')
+else:
+	print('hmm?')
