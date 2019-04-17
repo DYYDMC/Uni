@@ -1,0 +1,96 @@
+__Author__ = 'Deng_Yuyao'
+__Date__= '17.04.2019'
+
+
+	
+
+def review(filename,path):
+	global total_points 
+	global grades
+	global each_q
+
+	local_points = 0
+	filename = path + '/' + filename
+	txt_lines = []
+	ans_lines = []
+	f = open(filename,'r+')
+	for line in f.readlines():
+		line = line.strip('\n')
+		if line != '':
+			txt_lines.append(line)
+
+	local_points = len(txt_lines)-1
+	local_grades = 0
+	total_points = total_points + local_points
+
+	print("the question is :%s\n points:%d\n"%(txt_lines[0],(local_points)))
+
+	while len(ans_lines)<len(txt_lines)-1:
+		answer = input('there should be still %d Stichpunkte to this question:\n'% (len(txt_lines)-1-len(ans_lines)))
+		ans_lines.append(answer)
+
+	try:
+		print("already given answer:",ans_lines)
+		delete = input("do you want to change any answer?(y/n)\n")
+		while delete == 'y' and len(ans_lines) != 0:
+			removal = input('the answer you want to delete:\n')
+			ans_lines.remove(removal)
+			print("remaining answers:",ans_lines)
+			delete = input("do you want to change anything else?(y/n)\n")
+	except Exception as e:
+		raise e
+	for ans in ans_lines:
+		try:
+			if txt_lines.index(ans)>0:
+				txt_lines.remove(ans)
+		except Exception as e:
+			pass
+
+	print(len(txt_lines))
+	print(txt_lines)
+	local_grades = local_points - len(txt_lines)+1
+	print("your given answer(s) to question\n %s:\n"%txt_lines[0],ans_lines)
+	print("there are %d Stichpunkte you failed to give\n"%(len(txt_lines)-1),txt_lines[1:])
+	
+	grades = grades + local_grades
+
+	print('grade for this question in fraction:\n %d/%d'%(local_grades,local_points))
+	grade_string = str(local_grades)+'/'+str(local_points)
+	each_q.append(grade_string)
+
+
+
+
+
+import os
+question_num = 0
+total_points = 0
+grades = 0
+each_q = []
+
+for mod in os.listdir('/Users/dengyuyao1/Desktop/uni_project'):
+	print(mod)
+module = input('which module do you want to review today?\n')
+
+for vl in os.listdir('/Users/dengyuyao1/Desktop/uni_project'+'/'+module):
+	print(vl)
+vorlesung = input('which vorlesung do you want to review today?\n')
+
+
+path = '/Users/dengyuyao1/Desktop/uni_project'+'/'+module+'/'+vorlesung
+try:
+	files = os.listdir(path)
+except Exception as e:
+	print("waiting for implementation....")
+	print(e)
+
+os.system('clear')
+print(files)
+for dir in files:
+	print(dir)
+	print('=========================================================')
+	question_num += 1
+	review(dir,path)
+print('%d/%d'%(grades,total_points))
+for i in range(0,len(each_q)):
+	print(files[i]+':'+each_q[i])
