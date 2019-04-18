@@ -3,12 +3,15 @@ __Date__= '18.04.2019'
 
 import os
 import random
+import time
+import csv
 
 def review(filename,path):
 	global total_points 
 	global grades
 	global each_q
 	local_points = 0
+	note = filename
 	filename = path + '/' + filename
 	txt_lines = []
 	ans_lines = []
@@ -57,8 +60,10 @@ def review(filename,path):
 	grades = grades + local_grades
 	print('grade for this question in fraction:\n %d/%d\n\n'%(local_grades,local_points))
 	grade_string = str(local_grades)+'/'+str(local_points)
-	each_q.append(grade_string)
 
+	q_string = note[5:]
+	note = int(q_string[:-4])
+	each_q.append([note,grade_string])
 
 if __name__ == "__main__":
 	total_points = 0
@@ -68,12 +73,12 @@ if __name__ == "__main__":
 	os.chdir(path_1)
 	os.system('ls')
 	module = input('which module do you want to review today?\n')
-	path_2 = path_1+'/'+module
+	path_2 = os.path.join(path_1, module)
 	os.chdir(path_2)
 	print(os.getcwd())
 	os.system('ls')
 	vorlesung = input('which vorlesung do you want to review today?\n')
-	path_3 = path_2+'/'+vorlesung
+	path_3 = os.path.join(path_2, vorlesung)
 	os.chdir(path_3)
 	os.system('ls')
 	os.system('clear')
@@ -84,11 +89,25 @@ if __name__ == "__main__":
 	files = os.listdir(path_3)
 	print(os.getcwd())
 	for dir in files:
-		print('============================================================')
-		print(dir)
-		print('============================================================')
-		review(dir,path_3)
-
-	print('%d/%d'%(grades,total_points))
+		if dir != 'grades.csv':
+			print('============================================================')
+			print(dir)
+			print('============================================================')
+			review(dir,path_3)
+	final_grade = str(grades)+'/'+str(total_points)
+	print('grades for this trial:\n%s'%(final_grade))
+	access_time = time.strftime("%Y-%m-%d %H:%M:%S",time.localtime())
+	each_q.sort(key=lambda l:l[0])
+	inputRow = []
+	inputHeader = []
 	for i in range(0,len(each_q)):
-		print(files[i]+':'+each_q[i])
+		inputHeader.append(each_q[i][0])
+		inputRow.append(each_q[i][1])
+	inputRow.insert(0,access_time)
+	inputHeader.insert(0,'time')
+	inputRow.append(final_grade)
+	inputHeader.append('final_grade')
+	with open('grades.csv','a+') as file:
+		writer = csv.writer(file)
+		writer.writerow(inputHeader)
+		writer.writerow(inputRow)
