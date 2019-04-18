@@ -2,6 +2,7 @@ __Author__ = 'Deng_Yuyao'
 __Date__= '18.04.2019'
 
 import os
+import random
 
 def review(filename,path):
 	global total_points 
@@ -59,7 +60,6 @@ def review(filename,path):
 
 
 if __name__ == "__main__":
-	question_num = 0
 	total_points = 0
 	grades = 0
 	each_q = []
@@ -68,7 +68,6 @@ if __name__ == "__main__":
 	os.chdir(path_1)
 	os.system('ls')
 	module = input('which module do you want to review today?\n')
-
 
 	path_2 = path_1+'/'+module
 	os.chdir(path_2)
@@ -81,12 +80,15 @@ if __name__ == "__main__":
 	os.system('ls')
 
 	os.system('clear')
+	try:
+		os.system('rm .DS_Store')
+	except Exception as e:
+		pass
 	files = os.listdir(path_3)
 	print(os.getcwd())
 	for dir in files:
 		print(dir)
 		print('============================================================')
-		question_num += 1
 		review(dir,path_3)
 
 	print('%d/%d'%(grades,total_points))
