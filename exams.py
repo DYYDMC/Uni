@@ -1,8 +1,7 @@
 __Author__ = 'Deng_Yuyao'
-__Date__= '17.04.2019'
+__Date__= '18.04.2019'
 
-
-	
+import os
 
 def review(filename,path):
 	global total_points 
@@ -59,38 +58,37 @@ def review(filename,path):
 	each_q.append(grade_string)
 
 
+if __name__ == "__main__":
+	question_num = 0
+	total_points = 0
+	grades = 0
+	each_q = []
+
+	path_1 = '/Users/dengyuyao1/Desktop/uni_project'
+	os.chdir(path_1)
+	os.system('ls')
+	module = input('which module do you want to review today?\n')
 
 
+	path_2 = path_1+'/'+module
+	os.chdir(path_2)
+	print(os.getcwd())
+	os.system('ls')
 
-import os
-question_num = 0
-total_points = 0
-grades = 0
-each_q = []
+	vorlesung = input('which vorlesung do you want to review today?\n')
+	path_3 = path_2+'/'+vorlesung
+	os.chdir(path_3)
+	os.system('ls')
 
-for mod in os.listdir('/Users/dengyuyao1/Desktop/uni_project'):
-	print(mod)
-module = input('which module do you want to review today?\n')
+	os.system('clear')
+	files = os.listdir(path_3)
+	print(os.getcwd())
+	for dir in files:
+		print(dir)
+		print('============================================================')
+		question_num += 1
+		review(dir,path_3)
 
-for vl in os.listdir('/Users/dengyuyao1/Desktop/uni_project'+'/'+module):
-	print(vl)
-vorlesung = input('which vorlesung do you want to review today?\n')
-
-
-path = '/Users/dengyuyao1/Desktop/uni_project'+'/'+module+'/'+vorlesung
-try:
-	files = os.listdir(path)
-except Exception as e:
-	print("waiting for implementation....")
-	print(e)
-
-os.system('clear')
-print(files)
-for dir in files:
-	print(dir)
-	print('=========================================================')
-	question_num += 1
-	review(dir,path)
-print('%d/%d'%(grades,total_points))
-for i in range(0,len(each_q)):
-	print(files[i]+':'+each_q[i])
+	print('%d/%d'%(grades,total_points))
+	for i in range(0,len(each_q)):
+		print(files[i]+':'+each_q[i])
