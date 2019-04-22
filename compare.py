@@ -1,3 +1,7 @@
+__Author__ = 'Deng_Yuyao'
+__Date__= '20.04.2019'
+
+
 l1 = ['a','s','d','f','e']
 l2 = ['S','a']
 
@@ -23,6 +27,16 @@ def compare(answers,corrects):
 	return txtList#a List, containing correct answers which are not given by user
 
 def change(answers):
+	option = 0
+	option = input('1.delete, 2.add\nenter 1 or 2\nTo exit modifying mode, enter anything else ')
+
+	while option == '1':
+		def delete(answers):
+			nonlocal option
+
+
+
+
 	for each in answers:
 		print(each)
 	option = input('1.delete, 2.add\nenter 1 or 2\nTo exit modifying mode, enter anything else ')
@@ -57,3 +71,4 @@ def change(answers):
 		print('wrong keyword, you lost your last chance\nexit modifying mode...')
 
 change(l1)
+#compare(l2,l1) right is right
