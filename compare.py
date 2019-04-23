@@ -5,6 +5,10 @@ __Date__= '20.04.2019'
 l1 = ['a','s','d','f','e']
 l2 = ['S','a']
 
+def everyEle(List):
+	print('remaining elements in this List:')
+	for each in List:
+		print(each)
 
 def compare(answers,corrects):
 	ansList = []#lowercased answers given by user
@@ -27,48 +31,59 @@ def compare(answers,corrects):
 	return txtList#a List, containing correct answers which are not given by user
 
 def change(answers):
-	option = 0
-	option = input('1.delete, 2.add\nenter 1 or 2\nTo exit modifying mode, enter anything else ')
-
-	while option == '1':
-		def delete(answers):
-			nonlocal option
-
-
-
-
-	for each in answers:
-		print(each)
-	option = input('1.delete, 2.add\nenter 1 or 2\nTo exit modifying mode, enter anything else ')
-	if option == '1':
-		while option == '1':
-			for each in answers:
-				print(each)
-			delete = input('which one do you want to remove?')
+	print("entering change function...")
+	finish = 'n'
+	#everyEle(List)
+	option = input('1.delete, 2.add\nenter 1 or 2\nTo exit modifying mode, enter anything else\n')
+	while finish =='n':
+		os.system('clear')
+		while option =='1':
+			print('------------------------------------------------------------')
+			print('entering delete-mode...')
+			everyEle(answers)
+			delete = input('which one do you want to remove?\n(type the element you want to remove)\n')
 			try:
 				answers.remove(delete)
-				print('remaining answers',answers)
-				if_continue = input('remove more?(y/n)')
-				if if_continue == 'y':
-					print(option)
+				everyEle(answers)
+				continue_delete = input('remove more?(y/n)\n')
+				if continue_delete =='y':
 					pass
 				else:
-					option = 'null'
-					change(answers)
+					finish = input('are you done with modifying your answers(y/n):\n')
+					if finish =='y':
+						option ='null'
+						pass
+					elif finish =='n':
+						option ='2'
+					else:
+						finish ='y'
 			except Exception as e:
-				print(delete+"doesn't exist in your answers\n try again",answers)	
-	elif option == '2':
-		while option == '2':
-			add = input('what do you want to add:')
+				print(delete+"doesn't exist in your answers\n try again")
+				everyEle(answers)
+				print('------------------------------------------------------------')
+			print('------------------------------------------------------------')
+		while option =='2':
+			print('------------------------------------------------------------')
+			print('entering add-mode...')
+			everyEle(answers)
+			add = input('which one do you want to add?\n')
 			answers.append(add)
-			if_continue = input('remove more?(y/n)')
-			if if_continue =='y':
+			everyEle(answers)
+			continue_add = input('add more?(y/n)\n')
+			if continue_add =='y':
 				pass
 			else:
-				change(answers)
-				option ='null'
-	else:
-		print('wrong keyword, you lost your last chance\nexit modifying mode...')
-
-change(l1)
-#compare(l2,l1) right is right
+				finish = input('are you done with modifying your answers(y/n):\n')
+				if finish =='y':
+					option ='null'
+					pass
+				elif finish =='n':
+					option ='2'
+				else:
+					finish = 'y'
+			print('------------------------------------------------------------')
+		if option !='1' and option !='2':
+			finish = 'y'
+			print('AhO!You lost your last chance to change your answers!\nGood luck!\nByyyyyyye!')
+			print('------------------------------------------------------------')
+	return answers
